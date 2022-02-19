@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"strconv"
 
 	"github.com/lucxjo/streamtasks/shared/models"
@@ -27,7 +26,6 @@ func QueryAll(dbName string) []models.Task {
 	var tasks []models.Task = make([]models.Task, rowCount)
 	for rows.Next() {
 		rows.Scan(&tasks[iterator].ID, &tasks[iterator].Task, &tasks[iterator].Complete)
-		fmt.Println(strconv.Itoa(tasks[iterator].ID) + ": " + tasks[iterator].Task + " " + strconv.FormatBool(tasks[iterator].Complete))
 		iterator++
 	}
 

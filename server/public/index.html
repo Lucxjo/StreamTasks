@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-    <h1>Tasks</h1>
+    <h1>{{.PageTitle}}</h1>
+    <ul>
+        {{range .Tasks}}
+            {{if .Complete}}
+                <li class="complete">{{.Task}}</li>
+            {{else}}
+                <li>{{.Task}}</li>
+            {{end}}
+        {{end}}
+    </ul>
 </body>
 </html>

@@ -1,3 +1,13 @@
 body {
     font-family: 'Ubuntu', sans-serif;
 }
+
+.complete {
+    color: #585858;
+    text-decoration: line-through;
+    size: 18pt !important;
+}
+
+li {
+    font-size: large;
+}

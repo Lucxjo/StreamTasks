@@ -11,6 +11,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/lucxjo/streamtasks/server/db"
+	"github.com/lucxjo/streamtasks/shared/models"
 )
 
 var (
@@ -25,6 +26,11 @@ func handleFlags() {
 	flag.Parse()
 }
 
+type TaskPageData struct {
+	PageTitle string
+	Tasks []models.Task
+}
+
 func main() {
 	handleFlags()
 
@@ -32,7 +38,8 @@ func main() {
 	index := template.Must(template.ParseFiles("public/index.html"))
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		index.Execute(w, nil)
+		data := TaskPageData{PageTitle: "Tasks", Tasks: db.QueryAll(dbName)}
+		index.Execute(w, data)
 	}).Methods("GET")
 
 	r.HandleFunc("/add-task", func(w http.ResponseWriter, r *http.Request) {
