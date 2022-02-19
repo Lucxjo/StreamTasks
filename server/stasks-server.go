@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -57,8 +58,9 @@ func main() {
 		fmt.Fprint(w, string(data))
 	}).Methods("GET")
 
-	r.HandleFunc("/clear-all", func(rw http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/delete-all", func(rw http.ResponseWriter, r *http.Request) {
 		db.DeleteAll(dbName)
+		os.Remove("./" + dbName)
 	}).Methods("POST")
 
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("public/"))).Methods("GET")

@@ -11,5 +11,5 @@ func DeleteAll(dbName string) {
 	stmt := Prepare(db, "DELETE FROM tasks")
 	stmt.Exec()
 	stmt.Close()
-	db.Close()
+	defer db.Close()
 }
