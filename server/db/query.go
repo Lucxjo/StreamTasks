@@ -29,3 +29,26 @@ func QueryAll(dbName string) []models.Task {
 	defer db.Close()
 	return tasks
 }
+
+func QueryOne(dbName string, id int) models.Task {
+	db, err := sql.Open("sqlite3", "./"+dbName)
+
+	if err != nil {
+		panic(err)
+	}
+
+	rows, err := db.Query("SELECT id, task, complete FROM tasks WHERE id = ?", id)
+
+
+	if err != nil {
+		panic(err)
+	}
+
+	var task models.Task
+	for rows.Next() {
+		rows.Scan(&task.ID, &task.Task, &task.Complete)
+	}
+
+	defer db.Close()
+	return task
+}
