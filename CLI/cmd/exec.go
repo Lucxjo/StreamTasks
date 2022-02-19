@@ -12,6 +12,8 @@ func init() {
 	rootCmd.AddCommand(Version)
 	rootCmd.AddCommand(Add)
 	rootCmd.AddCommand(Complete)
+	rootCmd.AddCommand(GetRoot)
+	RegisterGets()
 }
 
 func Execute() {
