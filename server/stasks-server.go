@@ -57,6 +57,10 @@ func main() {
 		fmt.Fprint(w, string(data))
 	}).Methods("GET")
 
+	r.HandleFunc("/clear-all", func(rw http.ResponseWriter, r *http.Request) {
+		db.DeleteAll(dbName)
+	}).Methods("POST")
+
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("public/"))).Methods("GET")
 
 	fmt.Printf("Listening on port %s\n", port)
