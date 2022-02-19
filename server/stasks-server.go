@@ -47,6 +47,11 @@ func main() {
 		fmt.Fprint(w, string(data))
 	}).Methods("GET")
 
+	r.HandleFunc("/task", func(w http.ResponseWriter, r *http.Request) {
+		id := r.PostFormValue("id")
+		fmt.Fprintln(w, id)
+	}).Methods("POST")
+
 	fmt.Printf("Listening on port %s\n", port)
 
 	http.ListenAndServe(":" + port, r)
