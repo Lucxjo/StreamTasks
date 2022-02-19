@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"html/template"
@@ -39,6 +40,12 @@ func main() {
 	r.HandleFunc("/add-task", func(w http.ResponseWriter, r *http.Request) {
 		db.WriteDB(dbName, r.PostFormValue("task"), false)
 	}).Methods("POST")
+
+	r.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
+		tasks := db.QueryAll(dbName)
+		data, _ := json.Marshal(tasks)
+		fmt.Fprint(w, string(data))
+	}).Methods("GET")
 
 	fmt.Printf("Listening on port %s\n", port)
 
