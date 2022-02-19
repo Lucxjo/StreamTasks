@@ -29,9 +29,7 @@ func main() {
 	r := mux.NewRouter()
 	index := template.Must(template.ParseFiles("public/index.html"))
 
-	fs := http.FileServer(http.Dir("public/static"))
-
-	r.Handle("/static/", http.StripPrefix("/static/", fs))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("public/")))
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		index.Execute(w, nil)
