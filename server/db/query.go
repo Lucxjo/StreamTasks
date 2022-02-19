@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/lucxjo/streamtasks/shared/models"
 	_ "github.com/mattn/go-sqlite3"
@@ -12,17 +11,14 @@ import (
 
 func QueryAll(dbName string) []models.Task {
 	db, _ := sql.Open("sqlite3", "./"+dbName)
+	rowCountStmt, _ := db.Prepare("SELECT COUNT(*) FROM tasks")
 	rows, _ := db.Query("SELECT id, task, complete FROM tasks")
 	iterator := 0
-	rowCount := 0
+	var rowsCount string
 
-	for rows.Next() {
-		rowCount++
-		fmt.Println("Row: " + strconv.Itoa(rowCount))
-	}
+	rowCountStmt.QueryRow().Scan(&rowsCount)
 
-	time.Sleep(time.Second * 1)
-
+	rowCount, _ := strconv.Atoi(rowsCount)
 	var tasks []models.Task = make([]models.Task, rowCount)
 	for rows.Next() {
 		rows.Scan(&tasks[iterator].ID, &tasks[iterator].Task, &tasks[iterator].Complete)
